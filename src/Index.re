@@ -27,26 +27,67 @@ let makeContainer = text => {
   content;
 };
 
-// All 4 examples.
-/* ReactDOMRe.render(
-  <BlinkingGreeting>
-    {React.string("Hello!")}
-  </BlinkingGreeting>,
-  makeContainer("Blinking Greeting"),
+let x = 10.;
+let y = 30.;
+let width = 200.;
+let height = 100.;
+ReactDOMRe.render(
+  <svg>
+    {Kernel.render(
+       Theia.atom(
+         ~tag=None,
+         <rect
+           x={Js.Float.toString(x)}
+           y={Js.Float.toString(y)}
+           width={Js.Float.toString(width)}
+           height={Js.Float.toString(height)}
+           stroke="black"
+           strokeDasharray="4"
+           strokeWidth="3"
+           fill="magenta"
+         />,
+         Rectangle.fromPointSize(~x, ~y, ~width, ~height),
+       ),
+     )}
+  </svg>,
+  makeContainer("Theia Atom"),
 );
 
 ReactDOMRe.render(
-  <ReducerFromReactJSDocs />,
-  makeContainer("Reducer From ReactJS Docs"),
+  <svg>
+    {Kernel.render(
+       Theia.box(
+         ~dx=5.,
+         ~dy=5.,
+         Theia.atom(
+           <rect
+             x={Js.Float.toString(x)}
+             y={Js.Float.toString(y)}
+             width={Js.Float.toString(width)}
+             height={Js.Float.toString(height)}
+             stroke="black"
+             strokeDasharray="4"
+             strokeWidth="3"
+             fill="magenta"
+           />,
+           Rectangle.fromPointSize(~x, ~y, ~width, ~height),
+         ),
+         [],
+       ),
+     )}
+  </svg>,
+  makeContainer("Theia Box"),
 );
 
-ReactDOMRe.render(
-  <FetchedDogPictures />,
-  makeContainer("Fetched Dog Pictures"),
-);
+ReactDOMRe.render(<svg> {Kernel.render(Theia.str("foo"))} </svg>, makeContainer("Theia Str"));
 
 ReactDOMRe.render(
-  <ReasonUsingJSUsingReason />,
-  makeContainer("Reason Using JS Using Reason"),
+  <svg>
+    <g transform="translate(50, 50)">
+      {Kernel.render(
+         Theia.hSeq([Theia.vSeq([Theia.str("foo"), Theia.str("foo")]), Theia.str("bar")]),
+       )}
+    </g>
+  </svg>,
+  makeContainer("Nested Sequences"),
 );
- */
