@@ -28,7 +28,7 @@ let makeContainer = text => {
 };
 
 // All 4 examples.
-ReactDOMRe.render(
+/* ReactDOMRe.render(
   <BlinkingGreeting>
     {React.string("Hello!")}
   </BlinkingGreeting>,
@@ -49,3 +49,4 @@ ReactDOMRe.render(
   <ReasonUsingJSUsingReason />,
   makeContainer("Reason Using JS Using Reason"),
 );
+ */
