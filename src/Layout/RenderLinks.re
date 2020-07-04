@@ -4,16 +4,16 @@ type node('a) = {
   tag: option('a),
   nodes: list(node('a)),
   links: list(React.element),
-  globalTransform: Node.transform,
+  transform: Node.transform,
   bbox: Node.bbox,
   nodeRender: Node.bbox => React.element,
 };
 
-let rec computeTransform = (node: GlobalTransform.node('a), path) =>
+let rec computeTransform = (node: LayoutIR.node('a), path) =>
   switch (path) {
-  | [] => Rectangle.transform(node.bbox, node.globalTransform)
+  | [] => Rectangle.transform(node.bbox, node.transform)
   | [h, ...path] =>
-    let node = List.find((GlobalTransform.{uid}) => h == uid, node.nodes);
+    let node = List.find((LayoutIR.{uid}) => h == uid, node.nodes);
     computeTransform(node, path);
   };
 
@@ -28,10 +28,10 @@ let renderLink = (node, Link.{source, target, linkRender}: Link.lcaPath): React.
     lr(~source, ~target);
   };
 
-let rec convert =
-        (GlobalTransform.{uid, tag, nodes, links, globalTransform, bbox, nodeRender} as n)
+let rec lower =
+        (LayoutIR.{uid, tag, nodes, links, transform, bbox, nodeRender} as n)
         : node('a) => {
-  let nodes = List.map(convert, nodes);
+  let nodes = List.map(lower, nodes);
   let links = List.map(renderLink(n), links);
-  {uid, tag, nodes, links, globalTransform, bbox, nodeRender};
+  {uid, tag, nodes, links, transform, bbox, nodeRender};
 };

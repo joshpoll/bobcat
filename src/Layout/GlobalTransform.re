@@ -1,20 +1,10 @@
-type node('a) = {
-  uid: UID.t,
-  /* TODO: erase this field here? intended to be used only for modifications to layout before rendering */
-  tag: option('a),
-  nodes: list(node('a)),
-  links: list(Link.lcaPath),
-  /* transform relative to global frame. useful for animation */
-  globalTransform: Node.transform,
-  bbox: Node.bbox,
-  nodeRender: Node.bbox => React.element,
-};
+open LayoutIR;
 
 let rec computeGlobalTransformAux =
-        (globalTransform, Layout.{uid, tag, nodes, links, transform, bbox, nodeRender}) => {
+        (globalTransform, {uid, tag, nodes, links, transform, bbox, nodeRender}) => {
   let globalTransform = globalTransform->Transform.compose(transform);
   let nodes = List.map(computeGlobalTransformAux(globalTransform), nodes);
-  {uid, tag, nodes, links, globalTransform, bbox, nodeRender};
+  {uid, tag, nodes, links, transform, bbox, nodeRender};
 };
 
 let convert = n => computeGlobalTransformAux(Transform.init, n);

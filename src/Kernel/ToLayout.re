@@ -1,24 +1,15 @@
-type node('a) = {
-  uid: UID.t,
-  tag: option('a),
-  nodes: list(node('a)),
-  links: list(Link.lcaPath),
-  transform: Node.transform,
-  bbox: Node.bbox,
-  nodeRender: Node.bbox => React.element,
-};
-
+open LayoutIR;
 /**
  *  computes the bboxes of the child nodes of the input node
  */
 module MS = Belt.Map.String;
-let rec convert =
+let rec lower =
         (
           {uid, tag, nodes, renderingLinks, layoutLinks, layout, computeBBox, nodeRender}:
             LCA.node('a),
         )
         : node('a) => {
-  let bboxList = List.map(convert, nodes);
+  let bboxList = List.map(lower, nodes);
   let bboxMap = List.map(({uid, bbox}) => (uid, bbox), bboxList);
   let nodeTransforms = layout(bboxMap, layoutLinks);
   // Js.log2("nodeTransforms", nodeTransforms |> MS.toArray);
