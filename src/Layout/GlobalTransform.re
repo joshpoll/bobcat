@@ -2,8 +2,8 @@ open LayoutIR;
 
 let rec computeGlobalTransformAux =
         (globalTransform, {uid, tag, nodes, links, transform, bbox, nodeRender}) => {
-  let globalTransform = globalTransform->Transform.compose(transform);
-  let nodes = List.map(computeGlobalTransformAux(globalTransform), nodes);
+  let transform = globalTransform->Transform.compose(transform);
+  let nodes = List.map(computeGlobalTransformAux(transform), nodes);
   {uid, tag, nodes, links, transform, bbox, nodeRender};
 };
 
