@@ -30,11 +30,14 @@ let rec lower = (RenderLinks.{uid, nodes, links, transform, bbox, nodeRender}) =
   <g id=uid key=uid>
     <g id={uid ++ "__node"} transform> {nodeRender(bbox)} </g>
     <g id={uid ++ "__children"}> {List.map(lower, nodes) |> Array.of_list |> React.array} </g>
-    <g id={uid ++ "__links"}>
+    {switch (links) {
+      | [] => <> </>
+      | _ => 
+      <g id={uid ++ "__links"}>
       {links
        |> List.mapi((i, l) => <g key={uid ++ string_of_int(i)}> l </g>)
        |> Array.of_list
        |> React.array}
-    </g>
+    </g>}}
   </g>;
 };
