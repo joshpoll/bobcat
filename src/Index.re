@@ -91,3 +91,24 @@ ReactDOMRe.render(
   </svg>,
   makeContainer("Nested Sequences"),
 );
+
+ReactDOMRe.render(
+  <svg>
+    <g transform="translate(50, 50)">
+      {Kernel.render(
+        Theia.graph(~nodes=[Theia.str(~uid="a", "foo"), Theia.str(~uid="b", "bar")], ~links=[{source: "a", target: "b", linkRender: Some(
+                      (~source, ~target) => {
+                        <line
+                          x1={Js.Float.toString(source->Bobcat.Rectangle.cx)}
+                          y1={Js.Float.toString(source->Bobcat.Rectangle.cy)}
+                          x2={Js.Float.toString(target->Bobcat.Rectangle.x1)}
+                          y2={Js.Float.toString(target->Bobcat.Rectangle.cy)}
+                          stroke="purple"
+                        />
+                      },
+                    )}], ~gap=25., ~linkDistance=40., ~constraints=Seq.directionConstraints(LeftRight), ()),
+       )}
+    </g>
+  </svg>,
+  makeContainer("Graph"),
+);

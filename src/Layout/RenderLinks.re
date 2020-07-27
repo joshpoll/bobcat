@@ -25,6 +25,7 @@ let renderLink = (node, Link.{source, target, linkRender}: Link.lcaPath): React.
     let source = computeTransform(node, source);
     let target = computeTransform(node, target);
     /* <g key> {lr(~source, ~target)} </g>; */
+    Js.log2("rendered link", lr(~source, ~target));
     lr(~source, ~target);
   };
 
