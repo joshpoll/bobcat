@@ -14,7 +14,7 @@ let rec computeTransform = (node: LayoutIR.node('a), path) =>
   | [] => Rectangle.transform(node.bbox, node.transform)
   | [h, ...path] =>
     let node = try (List.find((LayoutIR.{uid}) => h == uid, node.nodes)) {
-      | Not_found => 
+      | _ =>
       Js.log2("couldn't find `" ++ h ++ "` in", node.nodes);
       failwith("computeTransform coudn't find the node")
     };
