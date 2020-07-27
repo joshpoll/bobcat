@@ -13,12 +13,13 @@ let rec computeTransform = (node: LayoutIR.node('a), path) =>
   switch (path) {
   | [] => Rectangle.transform(node.bbox, node.transform)
   | [h, ...path] =>
-    let node = try (List.find((LayoutIR.{uid}) => h == uid, node.nodes)) {
+    try (List.find((LayoutIR.{uid}) => h == uid, node.nodes) |> computeTransform(_, path)) {
       | _ =>
       Js.log2("couldn't find `" ++ h ++ "` in", node.nodes);
-      failwith("computeTransform coudn't find the node")
+      // failwith("computeTransform coudn't find the node")
+      /* TODO: this is a hack b/c links don't work in the animated destination correctly */
+      Rectangle.fromCenterPointSize(~cx=0., ~cy=0.,~width=0., ~height=0.);
     };
-    computeTransform(node, path);
   };
 
 let renderLink = (node, Link.{source, target, linkRender}: Link.lcaPath): React.element =>
